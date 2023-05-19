@@ -23,3 +23,28 @@ para o seu diretorio no nfs;
 ---
 
 ## Passos do Desenvolvimento
+
+### Criação da chave de acesso:
+- Acesse o ambiente AWS e entre no servico EC2 (Elastic Compute Cloud);
+- No canto esquerdo haverão várias opções de configuração de serviço, selecione **Rede e Segurança** e, em seguida, selecione **Pares de Chave**;
+- No canto superior direito, destacado em laranja, clique em **Criar par de chaves**;
+- Nomeie sua chave, selecione o arquivo .Pem, e no canto inferior direito, destacado em laranja, clique em **Criar par de chaves**;
+
+### Criação da Instância EC2:
+- No menu de configurações do lado esquerdo, clique em **Instâncias** e em **Instâncias** novamente;
+- No canto superior diretio, clique no botão laranja **Executar Instância**;
+- Nomeie sua Instância;
+- Selecione a imagem-AMI (Amazon Linux 2 AMI (HVM), SSD Volume Type);
+- Selecione o tipo de instância (t3.small);
+- Selecione a chave gerada anteriormente;
+- Selecione o armazenamento (16 GB gp2 SSD);
+- Clique no botão inferior laranja direito **Executar instância**;
+
+### Gerar 1 elastic IP e Anexar à instância EC2:
+- No menu de configurações do lado esquerdo, selecione **Rede e Segurança** e, em seguida, selecione **IPs elásticos**;
+-Clique no botão laranja superior direito **Alocar endereço IP elástico**;
+-Selecione o ip alocado e clique no botão superor branco **Ações** e, em seguida clique em **Associar endereço IP elástico**;
+- Selecione a instância EC2 criada anteriormente e clique no botãoinferior direito laranja **Associar**;
+
+### Configuração gateway de internet (possibilita comunicação com a internet):
+-
