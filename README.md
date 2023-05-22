@@ -65,12 +65,12 @@ para o seu diretorio no nfs;
 - Clique em **Salvar alterações**.
 
 ### Liberação de Portas:
--Acesse a AWS e entre no serviço de EC2;
--No menu de configurações do lado esquerdo, selecione **Rede e Segurança** e, em seguida, selecione **Grupos de Segurança**;
--Selecione o grupo de segurança vinculado a sua instância criada;
--Clique no botâo branco de **Ações** e, em seguida **Editar regras de entrada**; 
--Clique em **Adicionar regra** no botão inferior esquerdo branco e configure as portas solicitadas: 22/TCP, 111/TCP e UDP, 2049/TCP/UDP, 80/TCP, 443/TCP, que são respectivamente as portas de SSH, RPC, NFS, HTTP e HTTPS;
--Clique em **Salvar regras** no botão laranja inferior direito.
+- Acesse a AWS e entre no serviço de EC2;
+- No menu de configurações do lado esquerdo, selecione **Rede e Segurança** e, em seguida, selecione **Grupos de Segurança**;
+- Selecione o grupo de segurança vinculado a sua instância criada;
+- Clique no botâo branco de **Ações** e, em seguida **Editar regras de entrada**; 
+- Clique em **Adicionar regra** no botão inferior esquerdo branco e configure as portas solicitadas: 22/TCP, 111/TCP e UDP, 2049/TCP/UDP, 80/TCP, 443/TCP, que são respectivamente as portas de SSH, RPC, NFS, HTTP e HTTPS;
+- Clique em **Salvar regras** no botão laranja inferior direito.
 
 
 
