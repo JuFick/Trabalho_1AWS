@@ -72,7 +72,24 @@ para o seu diretorio no nfs;
 - Clique em **Adicionar regra** no botão inferior esquerdo branco e configure as portas solicitadas: 22/TCP, 111/TCP e UDP, 2049/TCP/UDP, 80/TCP, 443/TCP, que são respectivamente as portas de SSH, RPC, NFS, HTTP e HTTPS;
 - Clique em **Salvar regras** no botão laranja inferior direito.
 
+### Acesso à plataforma
+- Localize seu arquivo de chave privada e execute o comando `chmod 400 SuaChave.pem`;
+- Acesse seu hambiente AWS através da porta de ssh utilizando o comando: ` ssh -i "SuaChave.pem" ec2-user@ec2-sua-dns-publica`.
 
+### Configuração do NFS
+- Verifique se o NFS já está instalado na sua máquina EC2 com o comando `systemctl nfs-server.service`;
+- Se for necessária a instalação, execute os comandos `sudo yum install nfs-utils -y` e, em seguida inicie o nfs com o comanado `sudo systemctl start nfs-server`;
+*Lembre-se de estar executando os comandos como root*
+- Acesse o diretório /mnt com a sequência de comandos `cd /` > `ls` > `cd /mnt`;
+- Crie um diretório NFS dentro do /mnt que possua permissão total com o comando `sudo mkdir nfs -m 777`;
+- Crie um diretório com seu nome dentro do diretório nfs que também possua permissão total;
+- Torne o compartilhamento NFS global para o diretório nfs com os seguintes passos: `cd /` > `ls` > `cd /etc` > `vim exports` > `i` > `/nfs *(rw)` > aperte o botão `esc` > `:q!`;
+- Reinicie e habilite o serviço `systemctl restart nfs-server` > `systemctl enable nfs-server`;
 
+### Instalação do Apache
+- Verifique se o serviço já está instalado com  `systemctl status httpd`;
+- Se for necessária a instalação, execute o comando `sudo yum install httpd`;
+- Inicie e habilite o serviço com os comandos `sudo systemctl start httpd` > `sudo systemctl enable httpd`;
+- Verifique se o serviço está habilitado `systemctl status httpd`;
 
 
