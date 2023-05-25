@@ -72,19 +72,26 @@ para o seu diretorio no nfs;
 - Clique em **Adicionar regra** no botão inferior esquerdo branco e configure as portas solicitadas: 22/TCP, 111/TCP e UDP, 2049/TCP/UDP, 80/TCP, 443/TCP, que são respectivamente as portas de SSH, RPC, NFS, HTTP e HTTPS;
 - Clique em **Salvar regras** no botão laranja inferior direito.
 
-### Acesso à plataforma
+### Acesso à aws cli
 - Localize seu arquivo de chave privada e execute o comando `chmod 400 SuaChave.pem`;
 - Acesse seu hambiente AWS através da porta de ssh utilizando o comando: ` ssh -i "SuaChave.pem" ec2-user@ec2-sua-dns-publica`.
 
-### Configuração do NFS
-- Verifique se o NFS já está instalado na sua máquina EC2 com o comando `systemctl nfs-server.service`;
-- Se for necessária a instalação, execute os comandos `sudo yum install nfs-utils -y` e, em seguida inicie o nfs com o comanado `sudo systemctl start nfs-server`;
-*Lembre-se de estar executando os comandos como root*
-- Acesse o diretório /mnt com a sequência de comandos `cd /` > `ls` > `cd /mnt`;
-- Crie um diretório NFS dentro do /mnt que possua permissão total com o comando `sudo mkdir nfs -m 777`;
-- Crie um diretório com seu nome dentro do diretório nfs que também possua permissão total;
-- Torne o compartilhamento NFS global para o diretório nfs com os seguintes passos: `cd /` > `ls` > `cd /etc` > `vim exports` > `i` > `/nfs *(rw)` > aperte o botão `esc` > `:q!`;
-- Reinicie e habilite o serviço `systemctl restart nfs-server` > `systemctl enable nfs-server`;
+### Configuração do EFS
+- Acesse a plataforma AWS no serviço de EC2;
+- Crie um novo *Grupo de Segurança* seguindo os passos anteriores com as portas de SSH (22) e NFS (2049) abertas;
+- Entre no serciço de EFS (Elastic File System);
+- Clique no botão laranja **Criar sistema de arquivos**;
+- Nomeie seu sistema de arquivos e clique em **Criar**;
+- Após, clique em **Sistema de Arquivos** e em seguida, na parte inferior da tela, **redes**;
+- Selecione a opção de **Gerenciar** e, para todas as zonas de disponibilidade, modifique o grupo de segurança para o previamente criado;
+- Finalizado o processo, copie o DNS do filesystem e acesse a instância via ssh;
+- Crie um diretório dentro do diretório /mnt ex: */mnt/efs/*;
+- Instale o serviço com `yum install -y amazon-efs-utils`;
+- Depois monte o filesystem nesse diretório utilizando o comando ` sudo mount -t efs -o tls SEU_DNS:/ / /mnt/efs`;
+- Para automaziar a montagem no diretório vá até o diretório */etc/fstab* e insira a linha :`<DNS_Name>:/ /mnt/efs efs defaults,_netdev 0 0`;
+
+#### Criando um diretório dentro do filesystem com seu nome;
+Siga o seguinste comando: `sudo mkdir /mnt/nfs/<Seu_Nome>`
 
 ### Instalação do Apache
 - Verifique se o serviço já está instalado com  `systemctl status httpd`;
