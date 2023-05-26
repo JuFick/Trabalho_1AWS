@@ -88,15 +88,48 @@ para o seu diretorio no nfs;
 - Crie um diretório dentro do diretório /mnt ex: */mnt/efs/*;
 - Instale o serviço com `yum install -y amazon-efs-utils`;
 - Depois monte o filesystem nesse diretório utilizando o comando ` sudo mount -t efs -o tls SEU_DNS:/ / /mnt/efs`;
-- Para automaziar a montagem no diretório vá até o diretório */etc/fstab* e insira a linha :`<DNS_Name>:/ /mnt/efs efs defaults,_netdev 0 0`;
+- Para automaziar a montagem no diretório vá até o diretório */etc/fstab* e insira a linha :`<DNS_Name>:/ /mnt/efs efs defaults,_netdev 0 0`.
 
 #### Criando um diretório dentro do filesystem com seu nome;
-Siga o seguinste comando: `sudo mkdir /mnt/nfs/<Seu_Nome>`
+Siga o seguinste comando: `sudo mkdir /mnt/nfs/<Seu_Nome>`.
 
 ### Instalação do Apache
 - Verifique se o serviço já está instalado com  `systemctl status httpd`;
 - Se for necessária a instalação, execute o comando `sudo yum install httpd`;
 - Inicie e habilite o serviço com os comandos `sudo systemctl start httpd` > `sudo systemctl enable httpd`;
-- Verifique se o serviço está habilitado `systemctl status httpd`;
+- Verifique se o serviço está habilitado `systemctl status httpd`.
 
+### Criação do Script de automação 
+- Vá até o diretório /mnt/efs e crie um arquivo que tenha extensão *.sh*;
+- Abra o arquivo e cole o seguinte código:
+``` Bash
+#!/bin/bash
+
+export TZ=America/Sao_Paulo
+
+DATE=$(date '+%d-%m-%Y %H:%M:%S')
+
+if systemctl is-active --quiet httpd; then
+	STATUS="Serviço está online"
+	MESSAGE="O serviço Apache está funcionando como deveria."
+	FILENAME="Online"
+else
+	STATUS="Serviço está offline"
+	MESSAGE="O serviço Apache não está funcionando como deveria, vai ver o que deu errado."
+	FILENAME="Offline"
+fi
+
+echo "$DATE httpd $STATUS - $MESSAGE" | sudo tee -a /mnt/efs/$FILENAME
+```
+- Dê as permissões ao arquivo com o comando: `sudo chmod +x Seu_Arquivo.sh`
+- Para executar o script, use o comando dentro do diretório `./Seu_Arquivo.sh`.
+
+### Automatização do script 
+- Para automatizar o serviço use o comando: `crontab -e`;
+- Edite o arquivo que abrirá com o seguinte: `*/5 * * * * /<caminho_do_script>/script.sh`;
+- Para verificar se o serviço está automatizado, abra os arquivos *Online e Offline*.
+
+**Verifique se as portas estão abertas **
+- Utilize o comando *nmap + IP público da sua instância EC2*.
+- Caso não esteja instalado use o comando `yum install nmap`.
 
