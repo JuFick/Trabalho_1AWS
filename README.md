@@ -144,6 +144,7 @@ sudo firewall-cmd --permanent --add-port=2049/udp
 sudo firewall-cmd --permanent --add-port=80/tcp
 sudo firewall-cmd --permanent --add-port=443/tcp
 ```
-> `sudo firewall-cmd --reload` > `sudo firewall-cmd --list-all`. 
+- Execute: `sudo firewall-cmd --reload` > `sudo firewall-cmd --list-all`. 
+
 (--permanent garante que a configuração persista através de reinicializações do sistema)
 
