@@ -131,5 +131,19 @@ echo "$DATE httpd $STATUS - $MESSAGE" | sudo tee -a /mnt/efs/$FILENAME
 
 **Verifique se as portas estão abertas **
 - Utilize o comando *nmap + IP público da sua instância EC2*.
-- Caso não esteja instalado use o comando `yum install nmap`.
+- Caso não esteja instalado use o comando `yum install nmap`;
+- Caso a porta 2049 ou 111 não estejam abertas, certifique-se de que seu EFS esteja montado com o comando `df- h`. Caso a porta 443 não esteja aberta, certifique de que adicinou você possui um certificado SSL configurado no Apache.
+- Se não estiverem faça o seguinte:
+`sudo yum install firewalld` > `sudo yum installed firewalld` >  `sudo systemctl status firewalld` > `sudo systemctl start firewalld` > Habilite as portas fechadas com:
+```
+sudo firewall-cmd --permanent --add-port=22/tcp
+sudo firewall-cmd --permanent --add-port=111/tcp
+sudo firewall-cmd --permanent --add-port=111/udp
+sudo firewall-cmd --permanent --add-port=2049/tcp
+sudo firewall-cmd --permanent --add-port=2049/udp
+sudo firewall-cmd --permanent --add-port=80/tcp
+sudo firewall-cmd --permanent --add-port=443/tcp
+```
+> `sudo firewall-cmd --reload` > `sudo firewall-cmd --list-all`. 
+(--permanent garante que a configuração persista através de reinicializações do sistema)
 
