@@ -100,7 +100,7 @@ Siga o seguinste comando: `sudo mkdir /mnt/nfs/<Seu_Nome>`.
 - Verifique se o serviço está habilitado `systemctl status httpd`.
 
 ### Criação do Script de automação 
-- Vá até o diretório /mnt/efs e crie um arquivo que tenha extensão *.sh*;
+- Vá até o diretório /mnt/nfs e crie um arquivo que tenha extensão *.sh*;
 - Abra o arquivo e cole o seguinte código:
 ``` Bash
 #!/bin/bash
@@ -119,14 +119,14 @@ else
 	FILENAME="Offline"
 fi
 
-echo "$DATE httpd $STATUS - $MESSAGE" | sudo tee -a /mnt/efs/$FILENAME
+echo "$DATE httpd $STATUS - $MESSAGE" | sudo tee -a /mnt/nfs/julia/$FILENAME
 ```
 - Dê as permissões ao arquivo com o comando: `sudo chmod +x Seu_Arquivo.sh`
 - Para executar o script, use o comando dentro do diretório `./Seu_Arquivo.sh`.
 
 ### Automatização do script 
 - Para automatizar o serviço use o comando: `crontab -e`;
-- Edite o arquivo que abrirá com o seguinte: `*/5 * * * * /<caminho_do_script>/script.sh`;
+- Edite o arquivo que abrirá com o seguinte: `*/5 * * * * /<caminho_do_script>/Seu_Arquivo.sh`;
 - Para verificar se o serviço está automatizado, abra os arquivos *Online e Offline*.
 
 **Verifique se as portas estão abertas **
